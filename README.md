@@ -8,7 +8,7 @@ ArgoCD configuration for a local Kubernetes cluster. Pair with [`local-k8s-apps`
 
 ```bash
 brew install colima docker kubectl
-colima start --kubernetes --cpu 4 --memory 8 --mount /tmp/files:/tmp/files --mount ~/outline:w --mount ~/.secrets:/mnt/secrets:ro
+colima start --kubernetes --cpu 4 --memory 8 --mount ~/clusterstorage:w --mount ~/.secrets:/mnt/secrets:ro
 ```
 
 ### Install

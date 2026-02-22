@@ -146,23 +146,26 @@ kubectl wait -n services --for=condition=ready pod -l app.kubernetes.io/name=hom
 echo ""
 echo "⏳ Getting ArgoCD admin password..."
 sleep 10
-ARGOCD_PASSWORD=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
-echo "$ARGOCD_PASSWORD" | pbcopy
-echo "✅ ArgoCD admin password copied to clipboard (user: admin)"
+echo "To get ArgoCD admin password:"
+echo "  kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d"
 
 echo ""
 echo "🔐 Setting up port-forward..."
-sudo echo "starting-port-forward" && sudo kubectl port-forward -n ingress-nginx svc/nginx-ingress-ingress-nginx-controller 80:80 443:443 &
+echo "To start port-forward (requires sudo):"
+echo "  sudo kubectl port-forward -n ingress-nginx svc/nginx-ingress-ingress-nginx-controller 80:80 443:443"
 
 echo ""
 echo "📌 Next steps:"
 echo ""
-echo "1. ✅ Port-forward is running (80:80, 443:443)"
+echo "1. Start port-forward (in a new terminal):"
+echo "   sudo kubectl port-forward -n ingress-nginx svc/nginx-ingress-ingress-nginx-controller 80:80 443:443"
 echo ""
 echo "2. Add wildcard hostname to /etc/hosts:"
 echo "   127.0.0.1 *.lan"
 echo ""
-echo "3. ✅ ArgoCD admin password copied to clipboard (user: admin)"
+echo "3. Get ArgoCD admin password:"
+echo "   kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d"
+echo "   (user: admin)"
 echo ""
 echo "4. Open browser:"
 echo "   http://homepage.lan"
