@@ -134,18 +134,11 @@ if [ "$SYNC_STATUS" != "Synced" ]; then
 fi
 
 echo ""
-echo "✅ All applications deployed!"
+echo "✅ Root applications synced! ArgoCD is now deploying child applications."
 echo ""
-echo "⏳ Waiting for homepage pod to be ready..."
-kubectl wait -n services --for=condition=ready pod -l app.kubernetes.io/name=homepage --timeout=300s || {
-    echo "⚠️  Timeout waiting for homepage. Check status with:"
-    echo "   kubectl get pods -n services"
-    exit 1
-}
-
+echo "⏳ Child applications should be ready in about 15 seconds."
 echo ""
 echo "⏳ Getting ArgoCD admin password..."
-sleep 10
 echo "To get ArgoCD admin password:"
 echo "  kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d"
 
