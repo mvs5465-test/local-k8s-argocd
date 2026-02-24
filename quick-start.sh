@@ -73,6 +73,24 @@ else
 fi
 
 echo ""
+echo "🔐 Setting up GHCR image pull secret..."
+GITHUB_TOKEN_FILE="$HOME/.secrets/github/token"
+if [ -f "$GITHUB_TOKEN_FILE" ]; then
+    GITHUB_TOKEN=$(cat "$GITHUB_TOKEN_FILE")
+    kubectl create namespace ai || true
+    kubectl delete secret ghcr-secret -n ai --ignore-not-found
+    kubectl create secret docker-registry ghcr-secret \
+      -n ai \
+      --docker-server=ghcr.io \
+      --docker-username=mvs5465 \
+      --docker-password="$GITHUB_TOKEN" \
+      --docker-email=noreply@github.com
+    echo "✅ GHCR image pull secret configured"
+else
+    echo "⚠️  No token found at $GITHUB_TOKEN_FILE — skipping. ollama-mcp-bridge may fail to pull image."
+fi
+
+echo ""
 echo "📦 Applying AppProject..."
 kubectl apply -f manifests/config/appproject.yaml
 
