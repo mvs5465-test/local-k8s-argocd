@@ -18,6 +18,28 @@ This repo contains ArgoCD infrastructure and configuration. Pair with [`local-k8
 - Actual application definitions (Prometheus, Grafana, Dashboard, File Server)
 - Can iterate freely without touching this repo's ArgoCD config
 
+## Colima Configuration
+
+**Recommended specs** (for running Ollama + full stack):
+```bash
+colima start --kubernetes --cpu 6 --memory 12 \
+  --mount ~/clusterstorage:w \
+  --mount ~/.secrets:/mnt/secrets:ro
+```
+
+**Why these limits?**
+- 6 CPU: Enough for Ollama inference spikes + other services (currently 14% baseline usage)
+- 12GB memory: Supports 7-8B models comfortably with room for other pods
+- `~/clusterstorage`: Persistent storage for Jellyfin, Outline, Ollama models across resets
+
+**Full Colima reset** (if needed):
+```bash
+colima delete -f && colima prune -af
+colima start --kubernetes --cpu 6 --memory 12 \
+  --mount ~/clusterstorage:w \
+  --mount ~/.secrets:/mnt/secrets:ro
+```
+
 ## Guidelines for Claude Code
 
 ### Versioning & Releases
