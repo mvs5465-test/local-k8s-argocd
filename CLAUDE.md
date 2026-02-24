@@ -20,22 +20,23 @@ This repo contains ArgoCD infrastructure and configuration. Pair with [`local-k8
 
 ## Colima Configuration
 
-**Recommended specs** (for running Ollama + full stack):
+**Recommended specs** (with native Ollama on Mac):
 ```bash
-colima start --kubernetes --cpu 6 --memory 12 \
+colima start --kubernetes --cpu 2 --memory 4 \
   --mount ~/clusterstorage:w \
   --mount ~/.secrets:/mnt/secrets:ro
 ```
 
 **Why these limits?**
-- 6 CPU: Enough for Ollama inference spikes + other services (currently 14% baseline usage)
-- 12GB memory: Supports 7-8B models comfortably with room for other pods
-- `~/clusterstorage`: Persistent storage for Jellyfin, Outline, Ollama models across resets
+- 2 CPU: Cluster services only (MCP bridge, Open WebUI, ArgoCD) use <500m baseline
+- 4GB memory: Cluster services only (~1-2GB); Ollama runs natively on Mac with full GPU
+- `~/clusterstorage`: Persistent storage for Jellyfin, Outline, model cache across resets
+- Ollama GPU: Runs natively on macOS M2 with Metal acceleration (separate from cluster)
 
 **Full Colima reset** (if needed):
 ```bash
 colima delete -f && colima prune -af
-colima start --kubernetes --cpu 6 --memory 12 \
+colima start --kubernetes --cpu 2 --memory 4 \
   --mount ~/clusterstorage:w \
   --mount ~/.secrets:/mnt/secrets:ro
 ```
