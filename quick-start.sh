@@ -73,21 +73,18 @@ else
 fi
 
 echo ""
-echo "🔐 Setting up GHCR image pull secret..."
+echo "🔐 Setting up master GHCR secret for ESO..."
 GITHUB_TOKEN_FILE="$HOME/.secrets/github/token"
 if [ -f "$GITHUB_TOKEN_FILE" ]; then
     GITHUB_TOKEN=$(cat "$GITHUB_TOKEN_FILE")
-    kubectl create namespace ai || true
-    kubectl delete secret ghcr-secret -n ai --ignore-not-found
-    kubectl create secret docker-registry ghcr-secret \
-      -n ai \
-      --docker-server=ghcr.io \
-      --docker-username=mvs5465 \
-      --docker-password="$GITHUB_TOKEN" \
-      --docker-email=noreply@github.com
-    echo "✅ GHCR image pull secret configured"
+    kubectl create namespace external-secrets --dry-run=client -o yaml | kubectl apply -f -
+    kubectl delete secret ghcr-master-secret -n external-secrets --ignore-not-found
+    kubectl create secret generic ghcr-master-secret \
+      -n external-secrets \
+      --from-literal=token="$GITHUB_TOKEN"
+    echo "✅ Master GHCR secret created. ESO will sync ghcr-secret to all namespaces."
 else
-    echo "⚠️  No token found at $GITHUB_TOKEN_FILE — skipping. ollama-mcp-bridge may fail to pull image."
+    echo "⚠️  No token found at $GITHUB_TOKEN_FILE — skipping ghcr-master-secret."
 fi
 
 echo ""
