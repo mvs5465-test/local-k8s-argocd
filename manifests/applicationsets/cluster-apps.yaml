@@ -1,0 +1,78 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: cluster-apps
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+  - missingkey=error
+  generators:
+  - git:
+      repoURL: https://github.com/mvs5465/local-k8s-apps
+      revision: main
+      files:
+      - path: apps/system/nginx-ingress-app.yaml
+      - path: apps/system/external-secrets-app.yaml
+      values:
+        stage: bootstrap
+  - git:
+      repoURL: https://github.com/mvs5465/local-k8s-apps
+      revision: main
+      files:
+      - path: apps/system/external-secrets-config-app.yaml
+      - path: apps/system/prometheus-app.yaml
+      - path: apps/system/loki-app.yaml
+      - path: apps/system/grafana-app.yaml
+      - path: apps/system/k8s-monitoring-app.yaml
+      - path: apps/system/ollama-external-app.yaml
+      values:
+        stage: system
+  - git:
+      repoURL: https://github.com/mvs5465/local-k8s-apps
+      revision: main
+      files:
+      - path: apps/services/*.yaml
+      values:
+        stage: services
+  strategy:
+    type: RollingSync
+    rollingSync:
+      steps:
+      - matchExpressions:
+        - key: cluster.local/stage
+          operator: In
+          values:
+          - bootstrap
+      - matchExpressions:
+        - key: cluster.local/stage
+          operator: In
+          values:
+          - system
+      - matchExpressions:
+        - key: cluster.local/stage
+          operator: In
+          values:
+          - services
+  template:
+    metadata:
+      name: '{{ .metadata.name }}'
+      namespace: argocd
+      finalizers:
+      - resources-finalizer.argocd.argoproj.io
+      labels:
+        app.kubernetes.io/part-of: cluster-apps
+        cluster.local/stage: '{{ .values.stage }}'
+    spec:
+      project: '{{ .spec.project }}'
+      destination:
+        server: '{{ .spec.destination.server }}'
+        namespace: '{{ .spec.destination.namespace }}'
+  templatePatch: |
+    spec:
+      syncPolicy: {{ .spec.syncPolicy | toJson }}
+      {{- if .spec.sources }}
+      sources: {{ .spec.sources | toJson }}
+      {{- else }}
+      source: {{ .spec.source | toJson }}
+      {{- end }}

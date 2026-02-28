@@ -92,7 +92,7 @@ echo "📦 Applying AppProject..."
 kubectl apply -f manifests/config/appproject.yaml
 
 echo ""
-echo "📦 Bootstrapping AppProject and applications..."
+echo "📦 Bootstrapping AppProject and ApplicationSets..."
 kubectl apply -f manifests/argocd/appproject-app.yaml
 kubectl apply -f manifests/argocd/app-of-apps-app.yaml
 
@@ -113,9 +113,9 @@ if [ "$SYNC_STATUS" != "Synced" ]; then
 fi
 
 echo ""
-echo "✅ Root applications synced! ArgoCD is now deploying child applications."
+echo "✅ Root applications synced! ArgoCD is now deploying generated applications."
 echo ""
-echo "⏳ Child applications should be ready in about 15 seconds."
+echo "⏳ Generated applications should be ready in about 15 seconds."
 echo ""
 echo "⏳ Getting ArgoCD admin password..."
 echo "To get ArgoCD admin password:"

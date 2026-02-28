@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Changed
+- Replaced direct app-of-apps fan-out with an `ApplicationSet` + Progressive Syncs rollout
+- Root bootstrap application now applies `manifests/applicationsets` from this repo
+
 ### Added
 - AppProject source repo allowlist entry for `cluster-lite-wiki`
 - AppProject source repo allowlist entry for `cluster-home`

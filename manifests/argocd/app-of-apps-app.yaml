@@ -7,9 +7,9 @@ spec:
   project: cluster
 
   source:
-    repoURL: https://github.com/mvs5465/local-k8s-apps
+    repoURL: https://github.com/mvs5465/local-k8s-argocd
     targetRevision: main
-    path: apps
+    path: manifests/applicationsets
 
   destination:
     server: https://kubernetes.default.svc
