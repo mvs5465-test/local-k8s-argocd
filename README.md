@@ -19,7 +19,7 @@ chmod +x quick-start.sh
 ./quick-start.sh
 ```
 
-The script installs ArgoCD and bootstraps the cluster `ApplicationSet`.
+The script installs ArgoCD and bootstraps the root ArgoCD `Application` resources from `manifests/argocd/`.
 
 ## Access Services
 
