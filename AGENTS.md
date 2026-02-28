@@ -16,6 +16,8 @@ This repo owns ArgoCD bootstrap and shared cluster policy. Pair it with `local-k
 - Put routine app additions and app-specific ArgoCD manifests in `local-k8s-apps`, not here.
 - If an app repo is sourced directly from git, add that repo URL to `manifests/config/appproject.yaml` `sourceRepos` or ArgoCD will reject it.
 - Changes on `main` affect cluster bootstrap behavior, so keep PRs small and verify paths and repo URLs carefully.
+- PR titles must use the same Conventional Commit format as commits: `<type>(<scope>): <description>`.
+- Before handing off a PR, verify the latest commit message and the PR title both match that format.
 - If a bootstrap, namespace, access, or entrypoint change affects how the cluster is documented, update `cluster-lite-wiki/seed/pages/` in a companion PR so seeded docs stay aligned.
 
 ## Colima Baseline
