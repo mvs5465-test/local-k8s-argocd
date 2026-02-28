@@ -10,6 +10,7 @@ spec:
   - 'https://github.com/mvs5465/local-k8s-argocd'
   - 'https://github.com/mvs5465/local-k8s-apps'
   - 'https://github.com/mvs5465/loki-mcp-server'
+  - 'https://github.com/mvs5465/cluster-query-router'
   - 'https://bjw-s-labs.github.io/helm-charts'
   - 'https://charts.external-secrets.io'
   - 'https://twin.github.io/helm-charts'
