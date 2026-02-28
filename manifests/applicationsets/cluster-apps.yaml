@@ -71,7 +71,7 @@ spec:
   templatePatch: |
     spec:
       syncPolicy: {{ .spec.syncPolicy | toJson }}
-      {{- if .spec.sources }}
+      {{- if hasKey .spec "sources" }}
       sources: {{ .spec.sources | toJson }}
       {{- else }}
       source: {{ .spec.source | toJson }}
