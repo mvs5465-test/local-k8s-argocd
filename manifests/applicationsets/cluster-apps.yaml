@@ -34,6 +34,25 @@ spec:
       - path: apps/services/*.yaml
       values:
         stage: services
+  strategy:
+    type: RollingSync
+    rollingSync:
+      steps:
+      - matchExpressions:
+        - key: cluster.local/stage
+          operator: In
+          values:
+          - bootstrap
+      - matchExpressions:
+        - key: cluster.local/stage
+          operator: In
+          values:
+          - system
+      - matchExpressions:
+        - key: cluster.local/stage
+          operator: In
+          values:
+          - services
   template:
     metadata:
       name: '{{ .metadata.name }}'
@@ -50,21 +69,7 @@ spec:
         namespace: '{{ .spec.destination.namespace }}'
   templatePatch: |
     spec:
-      {{- if hasKey .spec "syncPolicy" }}
-      syncPolicy:
-        {{- if hasKey .spec.syncPolicy "automated" }}
-        automated:
-          enabled: true
-          prune: {{ .spec.syncPolicy.automated.prune | default false }}
-          selfHeal: {{ .spec.syncPolicy.automated.selfHeal | default false }}
-        {{- end }}
-        {{- if hasKey .spec.syncPolicy "retry" }}
-        retry: {{ .spec.syncPolicy.retry | toJson }}
-        {{- end }}
-        {{- if hasKey .spec.syncPolicy "syncOptions" }}
-        syncOptions: {{ .spec.syncPolicy.syncOptions | toJson }}
-        {{- end }}
-      {{- end }}
+      syncPolicy: {{ .spec.syncPolicy | toJson }}
       {{- if hasKey .spec "sources" }}
       sources: {{ .spec.sources | toJson }}
       {{- else }}

@@ -88,11 +88,15 @@ else
 fi
 
 echo ""
-echo "📦 Applying root ArgoCD Applications..."
-kubectl apply -f manifests/argocd/
+echo "📦 Applying AppProject policy..."
+kubectl apply -f manifests/config/appproject.yaml
 
 echo ""
-echo "⏳ Waiting for bootstrap ApplicationSet to render applications..."
+echo "📦 Applying bootstrap ApplicationSet..."
+kubectl apply -f manifests/applicationsets/cluster-apps.yaml
+
+echo ""
+echo "⏳ Waiting for ApplicationSet to render applications..."
 for i in {1..60}; do
     APPSET_READY=$(kubectl get applicationset cluster-apps -n argocd -o jsonpath='{.status.conditions[?(@.type=="ParametersGenerated")].status}' 2>/dev/null)
     if [ "$APPSET_READY" = "True" ]; then
@@ -102,7 +106,7 @@ for i in {1..60}; do
 done
 
 if [ "$APPSET_READY" != "True" ]; then
-    echo "⚠️  Bootstrap ApplicationSet did not finish rendering. Check status with:"
+    echo "⚠️  ApplicationSet did not finish rendering. Check status with:"
     echo "   kubectl get applicationset cluster-apps -n argocd -o yaml"
     exit 1
 fi

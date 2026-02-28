@@ -3,10 +3,8 @@
 ## [Unreleased]
 
 ### Changed
-- Replaced direct app-of-apps fan-out with an `ApplicationSet` rollout
+- Replaced direct app-of-apps fan-out with an `ApplicationSet` + Progressive Syncs rollout
 - Root bootstrap application now applies `manifests/applicationsets` from this repo
-- `quick-start.sh` now bootstraps the root ArgoCD `Application` resources so this repo self-manages
-- Generated applications now render with auto-sync explicitly enabled
 
 ### Added
 - AppProject source repo allowlist entry for `cluster-lite-wiki`
