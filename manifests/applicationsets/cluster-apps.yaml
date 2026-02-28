@@ -12,33 +12,34 @@ spec:
       repoURL: https://github.com/mvs5465/local-k8s-apps
       revision: main
       files:
-      - path: apps/system/nginx-ingress-app.yaml
-      - path: apps/system/external-secrets-app.yaml
+      - path: apps/wave-0/*.yaml
       values:
-        stage: bootstrap
+        wave: "0"
   - git:
       repoURL: https://github.com/mvs5465/local-k8s-apps
       revision: main
       files:
-      - path: apps/system/*.yaml
+      - path: apps/wave-1/*.yaml
       values:
-        stage: system
+        wave: "1"
   - git:
       repoURL: https://github.com/mvs5465/local-k8s-apps
       revision: main
       files:
-      - path: apps/services/*.yaml
+      - path: apps/wave-2/*.yaml
       values:
-        stage: services
+        wave: "2"
   template:
     metadata:
       name: '{{ .metadata.name }}'
       namespace: argocd
       finalizers:
       - resources-finalizer.argocd.argoproj.io
+      annotations:
+        argocd.argoproj.io/sync-wave: '{{ .values.wave }}'
       labels:
         app.kubernetes.io/part-of: cluster-apps
-        cluster.local/stage: '{{ .values.stage }}'
+        cluster.local/wave: '{{ .values.wave }}'
     spec:
       project: '{{ .spec.project }}'
       destination:
