@@ -41,7 +41,7 @@ The script installs ArgoCD and bootstraps the cluster `ApplicationSet`.
 Bootstrap setup:
 ├── ArgoCD (Helm installation)
 ├── AppProject-App (Self-manages ArgoCD config)
-└── App-of-Apps-App (Applies ApplicationSets that generate cluster apps)
+└── ApplicationSet-App (Applies ApplicationSets that generate cluster apps)
 ```
 
 See `CLAUDE.md` for development notes.
