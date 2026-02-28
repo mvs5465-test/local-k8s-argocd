@@ -96,23 +96,23 @@ echo "📦 Applying bootstrap ApplicationSet..."
 kubectl apply -f manifests/applicationsets/cluster-apps.yaml
 
 echo ""
-echo "⏳ Waiting for ApplicationSet to be created..."
+echo "⏳ Waiting for ApplicationSet to render applications..."
 for i in {1..60}; do
-    APPSET_READY=$(kubectl get applicationset cluster-apps -n argocd -o jsonpath='{.metadata.name}' 2>/dev/null)
-    if [ "$APPSET_READY" = "cluster-apps" ]; then
+    APPSET_READY=$(kubectl get applicationset cluster-apps -n argocd -o jsonpath='{.status.conditions[?(@.type=="ParametersGenerated")].status}' 2>/dev/null)
+    if [ "$APPSET_READY" = "True" ]; then
         break
     fi
     sleep 1
 done
 
-if [ "$APPSET_READY" != "cluster-apps" ]; then
-    echo "⚠️  ApplicationSet was not created. Check status with:"
-    echo "   kubectl get applicationsets -n argocd"
+if [ "$APPSET_READY" != "True" ]; then
+    echo "⚠️  ApplicationSet did not finish rendering. Check status with:"
+    echo "   kubectl get applicationset cluster-apps -n argocd -o yaml"
     exit 1
 fi
 
 echo ""
-echo "✅ ApplicationSet applied. ArgoCD is now reconciling generated applications."
+echo "✅ ApplicationSet rendered. ArgoCD is now reconciling generated applications."
 echo ""
 echo "⏳ Generated applications should be ready in about 15 seconds."
 echo ""
