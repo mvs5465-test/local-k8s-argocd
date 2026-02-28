@@ -7,6 +7,7 @@
 - Root bootstrap application now applies `manifests/applicationsets` from this repo
 - `quick-start.sh` now bootstraps the root ArgoCD `Application` resources so this repo self-manages
 - Generated applications now render with auto-sync explicitly enabled
+- Renamed the bootstrap `Application` for ApplicationSets from `applicationset-app` to `appset`
 
 ### Added
 - AppProject source repo allowlist entry for `cluster-lite-wiki`
