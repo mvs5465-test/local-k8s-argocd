@@ -6,6 +6,10 @@
 - AppProject source repo allowlist entry for `cluster-lite-wiki`
 - AppProject source repo allowlist entry for `cluster-home`
 
+### Removed
+- Outline namespace destination from the AppProject
+- Outline secret bootstrap logic from `quick-start.sh`
+
 ## [v1.3.1] - 2026-02-22 - Documentation Cleanup
 
 ### Changed
