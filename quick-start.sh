@@ -88,48 +88,37 @@ else
 fi
 
 echo ""
-echo "📦 Applying AppProject..."
+echo "📦 Applying AppProject policy..."
 kubectl apply -f manifests/config/appproject.yaml
 
 echo ""
-echo "📦 Bootstrapping AppProject and applications..."
-kubectl apply -f manifests/argocd/appproject-app.yaml
-kubectl apply -f manifests/argocd/app-of-apps-app.yaml
+echo "📦 Applying bootstrap ApplicationSet..."
+kubectl apply -f manifests/applicationsets/cluster-apps.yaml
 
 echo ""
-echo "⏳ Waiting for applications to sync (this takes ~30 seconds)..."
+echo "⏳ Waiting for ApplicationSet to be created..."
 for i in {1..60}; do
-    SYNC_STATUS=$(kubectl get application app-of-apps -n argocd -o jsonpath='{.status.sync.status}' 2>/dev/null)
-    if [ "$SYNC_STATUS" = "Synced" ]; then
+    APPSET_READY=$(kubectl get applicationset cluster-apps -n argocd -o jsonpath='{.metadata.name}' 2>/dev/null)
+    if [ "$APPSET_READY" = "cluster-apps" ]; then
         break
     fi
     sleep 1
 done
 
-if [ "$SYNC_STATUS" != "Synced" ]; then
-    echo "⚠️  Applications didn't sync. Check status with:"
-    echo "   kubectl get applications -n argocd"
+if [ "$APPSET_READY" != "cluster-apps" ]; then
+    echo "⚠️  ApplicationSet was not created. Check status with:"
+    echo "   kubectl get applicationsets -n argocd"
     exit 1
 fi
 
 echo ""
-echo "✅ Root applications synced! ArgoCD is now deploying child applications."
+echo "✅ ApplicationSet applied. ArgoCD is now reconciling generated applications."
 echo ""
-echo "⏳ Child applications should be ready in about 15 seconds."
+echo "⏳ Generated applications should be ready in about 15 seconds."
 echo ""
-echo "⏳ Getting ArgoCD admin password..."
-echo "To get ArgoCD admin password:"
-echo "  kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d"
-
+echo "📌 Access:"
 echo ""
-echo "🔐 Setting up port-forward..."
-echo "To start port-forward (requires sudo):"
-echo "  sudo kubectl port-forward -n ingress-nginx svc/nginx-ingress-ingress-nginx-controller 80:80 443:443"
-
-echo ""
-echo "📌 Next steps:"
-echo ""
-echo "1. Start port-forward (in a new terminal):"
+echo "1. Start port-forward:"
 echo "   sudo kubectl port-forward -n ingress-nginx svc/nginx-ingress-ingress-nginx-controller 80:80 443:443"
 echo ""
 echo "2. Add wildcard hostname to /etc/hosts:"

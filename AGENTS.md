@@ -7,7 +7,7 @@ This repo owns ArgoCD bootstrap and shared cluster policy. Pair it with `local-k
 - Shared ArgoCD config lives in `manifests/config/`
 - The two root applications are:
   - `manifests/argocd/appproject-app.yaml`
-  - `manifests/argocd/app-of-apps-app.yaml`
+  - `manifests/argocd/applicationset-app.yaml`
 - `manifests/config/appproject.yaml` is the main cross-repo allowlist and policy file
 - `quick-start.sh` is the bootstrap entrypoint referenced by the README
 

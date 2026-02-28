@@ -42,6 +42,8 @@ dex:
 configs:
   cm:
     timeout.reconciliation: 10s
+  params:
+    applicationsetcontroller.enable.progressive.syncs: "true"
 
 # Global configuration
 global:

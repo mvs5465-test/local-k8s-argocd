@@ -19,7 +19,7 @@ chmod +x quick-start.sh
 ./quick-start.sh
 ```
 
-The script installs ArgoCD and points it to the apps repo.
+The script installs ArgoCD and bootstraps the cluster `ApplicationSet`.
 
 ## Access Services
 
@@ -41,7 +41,7 @@ The script installs ArgoCD and points it to the apps repo.
 Bootstrap setup:
 ├── ArgoCD (Helm installation)
 ├── AppProject-App (Self-manages ArgoCD config)
-└── App-of-Apps-App (Watches local-k8s-apps)
+└── ApplicationSet-App (Applies ApplicationSets that generate cluster apps)
 ```
 
 See `CLAUDE.md` for development notes.
