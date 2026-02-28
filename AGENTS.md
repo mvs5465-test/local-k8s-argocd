@@ -1,20 +1,21 @@
 # Local K8s ArgoCD
 
-This repo owns ArgoCD bootstrap and shared cluster policy. Pair it with `local-k8s-apps`, which holds the actual application `Application` resources.
+This repo owns ArgoCD bootstrap and shared cluster policy. Pair it with `local-k8s-apps`, which holds the day-to-day application `Application` resources.
 
 ## Repo Shape
-- Bootstrap manifests live in `manifests/argocd/`.
+- Bootstrap manifests live in `manifests/argocd/`
+- Shared ArgoCD config lives in `manifests/config/`
 - The two root applications are:
   - `manifests/argocd/appproject-app.yaml`
   - `manifests/argocd/app-of-apps-app.yaml`
-- Shared ArgoCD project policy lives in `manifests/config/appproject.yaml`.
-- Helm values for the ArgoCD install live in `manifests/config/values.yaml`.
+- `manifests/config/appproject.yaml` is the main cross-repo allowlist and policy file
+- `quick-start.sh` is the bootstrap entrypoint referenced by the README
 
 ## Working Rules
-- Keep infra changes here and day-to-day app additions in `local-k8s-apps`.
-- If an app in `local-k8s-apps` pulls a Helm chart from a git repo, add that repo URL to `manifests/config/appproject.yaml` under `sourceRepos` or ArgoCD will reject it.
-- Changes on `main` affect cluster bootstrap behavior, so favor small PRs and verify manifest paths carefully.
-- `quick-start.sh` is the bootstrap entrypoint referenced by the README.
+- Keep bootstrap, shared policy, and ArgoCD infra changes here.
+- Put routine app additions and app-specific ArgoCD manifests in `local-k8s-apps`, not here.
+- If an app repo is sourced directly from git, add that repo URL to `manifests/config/appproject.yaml` `sourceRepos` or ArgoCD will reject it.
+- Changes on `main` affect cluster bootstrap behavior, so keep PRs small and verify paths and repo URLs carefully.
 
 ## Colima Baseline
 - Recommended:
@@ -38,3 +39,8 @@ colima start --kubernetes --cpu 4 --memory 6 \
 - Add each merged change to `RELEASES.md` under `[Unreleased]`.
 - Batch roughly 2-3 changes per release.
 - On release, move unreleased notes into a versioned section like `[v0.3.0] - YYYY-MM-DD`, tag it, and publish the GitHub release.
+
+## Validation
+- Sanity-check manifest paths after any move or rename.
+- Treat `manifests/config/appproject.yaml` changes as high-impact because they control what ArgoCD can sync.
+- If you change bootstrap behavior, verify it still lines up with the repo structure in `local-k8s-apps`.
