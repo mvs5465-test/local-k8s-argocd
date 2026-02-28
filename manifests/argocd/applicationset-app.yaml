@@ -4,7 +4,7 @@ metadata:
   name: applicationset-app
   namespace: argocd
 spec:
-  project: cluster
+  project: default
 
   source:
     repoURL: https://github.com/mvs5465/local-k8s-argocd
