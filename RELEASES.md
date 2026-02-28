@@ -4,6 +4,10 @@
 
 ### Added
 - AppProject source repo allowlist entry for `cluster-lite-wiki`
+- AppProject source repo allowlist entry for `cluster-home`
+
+### Changed
+- Service dashboard URL now points to `home.lan`
 
 ## [v1.3.1] - 2026-02-22 - Documentation Cleanup
 
