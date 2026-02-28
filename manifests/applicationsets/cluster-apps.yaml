@@ -25,7 +25,6 @@ spec:
       - path: apps/system/loki-app.yaml
       - path: apps/system/grafana-app.yaml
       - path: apps/system/k8s-monitoring-app.yaml
-      - path: apps/system/ollama-external-app.yaml
       values:
         stage: system
   - git:

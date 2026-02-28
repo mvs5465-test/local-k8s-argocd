@@ -14,6 +14,7 @@
 - Outline namespace destination from the AppProject
 - Outline secret bootstrap logic from `quick-start.sh`
 - Homepage references in bootstrap and README (Cluster Home is now the primary entrypoint)
+- Ollama external application from the cluster ApplicationSet
 
 ## [v1.3.1] - 2026-02-22 - Documentation Cleanup
 
