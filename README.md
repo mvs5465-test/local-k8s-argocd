@@ -33,7 +33,7 @@ The script installs ArgoCD and points it to the apps repo.
    127.0.0.1 *.lan
    ```
 
-3. **Visit**: http://home.lan
+3. **Visit**: http://homepage.lan
 
 ## Architecture
 
