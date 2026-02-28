@@ -20,11 +20,7 @@ spec:
       repoURL: https://github.com/mvs5465/local-k8s-apps
       revision: main
       files:
-      - path: apps/system/external-secrets-config-app.yaml
-      - path: apps/system/prometheus-app.yaml
-      - path: apps/system/loki-app.yaml
-      - path: apps/system/grafana-app.yaml
-      - path: apps/system/k8s-monitoring-app.yaml
+      - path: apps/system/*.yaml
       values:
         stage: system
   - git:
