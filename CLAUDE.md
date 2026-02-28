@@ -33,7 +33,7 @@ colima start --kubernetes --cpu 4 --memory 6 \
 **Why these limits?**
 - 4 CPU: Headroom for k3s scheduling and service performance
 - 6GB memory: k3s VM overhead + cluster services (~1-2GB); leaves room for caching/buffers
-- `~/clusterstorage`: Persistent storage for Jellyfin, Outline, model cache across resets
+- `~/clusterstorage`: Persistent storage for Jellyfin, local app data, and caches across resets
 - Ollama GPU: Runs natively on macOS M2 with Metal acceleration (separate from cluster)
 
 **Full Colima reset** (if needed):

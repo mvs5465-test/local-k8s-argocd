@@ -38,8 +38,6 @@ spec:
     server: https://kubernetes.default.svc
   - namespace: 'services'
     server: https://kubernetes.default.svc
-  - namespace: 'outline'
-    server: https://kubernetes.default.svc
   - namespace: 'ai'
     server: https://kubernetes.default.svc
 
