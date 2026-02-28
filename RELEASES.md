@@ -9,6 +9,7 @@
 ### Removed
 - Outline namespace destination from the AppProject
 - Outline secret bootstrap logic from `quick-start.sh`
+- Homepage references in bootstrap and README (Cluster Home is now the primary entrypoint)
 
 ## [v1.3.1] - 2026-02-22 - Documentation Cleanup
 
