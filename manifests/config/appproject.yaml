@@ -11,6 +11,7 @@ spec:
   - 'https://github.com/mvs5465/local-k8s-apps'
   - 'https://github.com/mvs5465/loki-mcp-server'
   - 'https://github.com/mvs5465/cluster-query-router'
+  - 'https://github.com/mvs5465/cluster-lite-wiki'
   - 'https://bjw-s-labs.github.io/helm-charts'
   - 'https://charts.external-secrets.io'
   - 'https://twin.github.io/helm-charts'
