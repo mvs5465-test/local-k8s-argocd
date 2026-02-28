@@ -92,29 +92,27 @@ echo "📦 Applying AppProject policy..."
 kubectl apply -f manifests/config/appproject.yaml
 
 echo ""
-echo "📦 Applying bootstrap applications..."
-kubectl apply -f manifests/argocd/appproject-app.yaml
-kubectl apply -f manifests/argocd/app-of-apps-app.yaml
+echo "📦 Applying bootstrap ApplicationSet..."
 kubectl apply -f manifests/applicationsets/cluster-apps.yaml
 
 echo ""
-echo "⏳ Waiting for bootstrap applications to sync (this takes ~30 seconds)..."
+echo "⏳ Waiting for ApplicationSet to be created..."
 for i in {1..60}; do
-    SYNC_STATUS=$(kubectl get application app-of-apps -n argocd -o jsonpath='{.status.sync.status}' 2>/dev/null)
-    if [ "$SYNC_STATUS" = "Synced" ]; then
+    APPSET_READY=$(kubectl get applicationset cluster-apps -n argocd -o jsonpath='{.metadata.name}' 2>/dev/null)
+    if [ "$APPSET_READY" = "cluster-apps" ]; then
         break
     fi
     sleep 1
 done
 
-if [ "$SYNC_STATUS" != "Synced" ]; then
-    echo "⚠️  Bootstrap applications didn't sync. Check status with:"
-    echo "   kubectl get applications -n argocd"
+if [ "$APPSET_READY" != "cluster-apps" ]; then
+    echo "⚠️  ApplicationSet was not created. Check status with:"
+    echo "   kubectl get applicationsets -n argocd"
     exit 1
 fi
 
 echo ""
-echo "✅ Bootstrap applied. ArgoCD is now reconciling generated applications."
+echo "✅ ApplicationSet applied. ArgoCD is now reconciling generated applications."
 echo ""
 echo "⏳ Generated applications should be ready in about 15 seconds."
 echo ""
