@@ -13,7 +13,7 @@ spec:
   - 'https://github.com/mvs5465/cluster-query-router'
   - 'https://github.com/mvs5465/cluster-lite-wiki'
   - 'https://github.com/mvs5465/cluster-home'
-  - 'https://github.com/mvs5465/github-pr-slack-notifier'
+  - 'https://github.com/mvs5465-test/github-pr-slack-notifier'
   - 'https://bjw-s-labs.github.io/helm-charts'
   - 'https://charts.external-secrets.io'
   - 'https://twin.github.io/helm-charts'
