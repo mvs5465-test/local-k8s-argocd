@@ -3,6 +3,13 @@
 
 # ArgoCD Server Configuration
 server:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 300m
+      memory: 256Mi
 
   # Command line parameters
   extraArgs:
@@ -23,16 +30,55 @@ server:
     enabled: true
 
 controller:
+  resources:
+    requests:
+      cpu: 200m
+      memory: 384Mi
+    limits:
+      cpu: 1000m
+      memory: 768Mi
   metrics:
     enabled: true
 
 repoServer:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 160Mi
+    limits:
+      cpu: 300m
+      memory: 384Mi
   metrics:
     enabled: true
 
 applicationSet:
+  resources:
+    requests:
+      cpu: 25m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
   metrics:
     enabled: true
+
+notifications:
+  resources:
+    requests:
+      cpu: 25m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+redis:
+  resources:
+    requests:
+      cpu: 10m
+      memory: 32Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
 
 # Dex Configuration
 dex:

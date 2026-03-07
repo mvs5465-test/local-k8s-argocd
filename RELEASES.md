@@ -10,6 +10,7 @@
 - Renamed the bootstrap `Application` for ApplicationSets from `applicationset-app` to `appset`
 - Cluster `ApplicationSet` now reads wave-based app folders (`apps/wave-0`, `apps/wave-1`, `apps/wave-2`) and assigns generated apps both `cluster.local/wave` and `argocd.argoproj.io/sync-wave`
 - AppProject destinations now include dedicated namespace `github-pr-slack-notifier`
+- ArgoCD core workloads now define explicit CPU/memory requests and limits for `controller`, `server`, `repoServer`, `applicationSet`, `notifications`, and `redis`
 
 ### Added
 - AppProject source repo allowlist entry for `cluster-lite-wiki`
