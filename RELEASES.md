@@ -14,6 +14,7 @@
 - AppProject source repo allowlist entry for `cluster-lite-wiki`
 - AppProject source repo allowlist entry for `cluster-home`
 - AppProject source repo allowlist entry for `grafana-community`
+- AppProject source repo allowlist entry for `github-pr-slack-notifier`
 
 ### Removed
 - Outline namespace destination from the AppProject
