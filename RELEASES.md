@@ -15,6 +15,7 @@
 - AppProject source repo allowlist entry for `cluster-home`
 - AppProject source repo allowlist entry for `grafana-community`
 - AppProject source repo allowlist entry for `github-pr-slack-notifier`
+- `quick-start.sh` now bootstraps `github-pr-slack-notifier-master-secret` from `~/.secrets/github-pr-slack-notifier/*` for ESO fan-out
 
 ### Removed
 - Outline namespace destination from the AppProject
