@@ -7,7 +7,7 @@ spec:
   project: default
 
   source:
-    repoURL: https://github.com/mvs5465/local-k8s-argocd
+    repoURL: https://github.com/mvs5465-test/local-k8s-argocd
     targetRevision: main
     path: manifests/applicationsets
 
