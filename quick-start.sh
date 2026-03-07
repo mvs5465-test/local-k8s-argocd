@@ -88,6 +88,27 @@ else
 fi
 
 echo ""
+echo "🔐 Setting up master GitHub PR notifier secret for ESO..."
+NOTIFIER_GH_PRIVATE_KEY_FILE="$HOME/.secrets/github-pr-slack-notifier/github_private_key.pem"
+NOTIFIER_SLACK_TOKEN_FILE="$HOME/.secrets/github-pr-slack-notifier/slack_bot_token"
+if [ -f "$NOTIFIER_GH_PRIVATE_KEY_FILE" ] && [ -f "$NOTIFIER_SLACK_TOKEN_FILE" ]; then
+    NOTIFIER_GH_PRIVATE_KEY=$(cat "$NOTIFIER_GH_PRIVATE_KEY_FILE")
+    NOTIFIER_SLACK_TOKEN=$(cat "$NOTIFIER_SLACK_TOKEN_FILE")
+    kubectl create namespace external-secrets --dry-run=client -o yaml | kubectl apply -f -
+    kubectl delete secret github-pr-slack-notifier-master-secret -n external-secrets --ignore-not-found
+    kubectl create secret generic github-pr-slack-notifier-master-secret \
+      -n external-secrets \
+      --from-literal=github_app_private_key="$NOTIFIER_GH_PRIVATE_KEY" \
+      --from-literal=slack_bot_token="$NOTIFIER_SLACK_TOKEN"
+    echo "✅ Master notifier secret created. ESO will sync github-pr-slack-notifier-secret to ai namespace."
+else
+    echo "⚠️  Missing notifier files — skipping github-pr-slack-notifier-master-secret."
+    echo "   Expected files:"
+    echo "   - $NOTIFIER_GH_PRIVATE_KEY_FILE"
+    echo "   - $NOTIFIER_SLACK_TOKEN_FILE"
+fi
+
+echo ""
 echo "📦 Applying root ArgoCD Applications..."
 kubectl apply -f manifests/argocd/
 
