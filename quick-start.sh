@@ -100,7 +100,7 @@ if [ -f "$NOTIFIER_GH_PRIVATE_KEY_FILE" ] && [ -f "$NOTIFIER_SLACK_TOKEN_FILE" ]
       -n external-secrets \
       --from-literal=github_app_private_key="$NOTIFIER_GH_PRIVATE_KEY" \
       --from-literal=slack_bot_token="$NOTIFIER_SLACK_TOKEN"
-    echo "✅ Master notifier secret created. ESO will sync github-pr-slack-notifier-secret to ai namespace."
+    echo "✅ Master notifier secret created. ESO will sync github-pr-slack-notifier-secret to github-pr-slack-notifier namespace."
 else
     echo "⚠️  Missing notifier files — skipping github-pr-slack-notifier-master-secret."
     echo "   Expected files:"

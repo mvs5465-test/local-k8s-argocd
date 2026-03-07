@@ -42,6 +42,8 @@ spec:
     server: https://kubernetes.default.svc
   - namespace: 'ai'
     server: https://kubernetes.default.svc
+  - namespace: 'github-pr-slack-notifier'
+    server: https://kubernetes.default.svc
 
   clusterResourceWhitelist:
   - group: ''
