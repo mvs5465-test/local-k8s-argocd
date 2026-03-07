@@ -9,21 +9,21 @@ spec:
   - missingkey=error
   generators:
   - git:
-      repoURL: https://github.com/mvs5465/local-k8s-apps
+      repoURL: https://github.com/mvs5465-test/local-k8s-apps
       revision: main
       files:
       - path: apps/wave-0/*.yaml
       values:
         wave: "0"
   - git:
-      repoURL: https://github.com/mvs5465/local-k8s-apps
+      repoURL: https://github.com/mvs5465-test/local-k8s-apps
       revision: main
       files:
       - path: apps/wave-1/*.yaml
       values:
         wave: "1"
   - git:
-      repoURL: https://github.com/mvs5465/local-k8s-apps
+      repoURL: https://github.com/mvs5465-test/local-k8s-apps
       revision: main
       files:
       - path: apps/wave-2/*.yaml

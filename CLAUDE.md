@@ -1,6 +1,6 @@
 # Local K8s ArgoCD - Infrastructure Configuration
 
-This repo contains ArgoCD infrastructure and configuration. Pair with [`local-k8s-apps`](https://github.com/mvs5465/local-k8s-apps) for application definitions.
+This repo contains ArgoCD infrastructure and configuration. Pair with [`local-k8s-apps`](https://github.com/mvs5465-test/local-k8s-apps) for application definitions.
 
 ## Two-Repo Architecture
 
@@ -19,7 +19,7 @@ This repo contains ArgoCD infrastructure and configuration. Pair with [`local-k8
 - Can iterate freely without touching this repo's ArgoCD config
 
 **Adding new application repositories:**
-When you add a new Application in `local-k8s-apps` that pulls its Helm chart from a git repo (not a public Helm repo), you must whitelist that repo's URL in `manifests/config/appproject.yaml` under `sourceRepos`. Example: loki-mcp-server pulls from its own GitHub repo, so `https://github.com/mvs5465/loki-mcp-server` was added to sourceRepos.
+When you add a new Application in `local-k8s-apps` that pulls its Helm chart from a git repo (not a public Helm repo), you must whitelist that repo's URL in `manifests/config/appproject.yaml` under `sourceRepos`. Example: loki-mcp-server pulls from its own GitHub repo, so `https://github.com/mvs5465-test/loki-mcp-server` was added to sourceRepos.
 
 ## Colima Configuration
 

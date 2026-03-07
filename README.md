@@ -1,6 +1,6 @@
 # Local K8s Infrastructure
 
-ArgoCD configuration for a local Kubernetes cluster. Pair with [`local-k8s-apps`](https://github.com/mvs5465/local-k8s-apps) for application definitions.
+ArgoCD configuration for a local Kubernetes cluster. Pair with [`local-k8s-apps`](https://github.com/mvs5465-test/local-k8s-apps) for application definitions.
 
 ## Quick Start
 
