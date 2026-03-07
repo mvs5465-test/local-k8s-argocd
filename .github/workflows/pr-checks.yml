@@ -1,0 +1,31 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  yaml-lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install yamllint
+        run: pip install yamllint
+
+      - name: Lint YAML
+        run: yamllint -d relaxed manifests/
+
+  kubectl-dry-run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: azure/setup-kubectl@v4
+
+      - name: Validate manifests (client-side dry run)
+        run: |
+          find manifests/ -name "*.yaml" | xargs -I{} kubectl apply --dry-run=client -f {} 2>&1 | grep -v "^$"
