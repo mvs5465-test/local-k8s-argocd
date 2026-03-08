@@ -46,6 +46,13 @@ spec:
         server: '{{ .spec.destination.server }}'
         namespace: '{{ .spec.destination.namespace }}'
   templatePatch: |
+    metadata:
+      {{- if hasKey .metadata "annotations" }}
+      annotations:
+        {{- range $k, $v := .metadata.annotations }}
+        {{ $k | quote }}: {{ $v | quote }}
+        {{- end }}
+      {{- end }}
     spec:
       {{- if hasKey .spec "syncPolicy" }}
       syncPolicy:
