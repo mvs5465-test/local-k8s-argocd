@@ -46,6 +46,15 @@ spec:
         server: '{{ .spec.destination.server }}'
         namespace: '{{ .spec.destination.namespace }}'
   templatePatch: |
+    # Forward source Application annotations (e.g. image updater config)
+    # so generated Applications keep app-level behavior.
+    metadata:
+      {{- if hasKey .metadata "annotations" }}
+      annotations:
+        {{- range $k, $v := .metadata.annotations }}
+        {{ $k | quote }}: {{ $v | toJson }}
+        {{- end }}
+      {{- end }}
     spec:
       {{- if hasKey .spec "syncPolicy" }}
       syncPolicy:
