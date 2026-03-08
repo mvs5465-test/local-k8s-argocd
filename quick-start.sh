@@ -109,6 +109,23 @@ else
 fi
 
 echo ""
+echo "🔐 Setting up master Grafana alerting secret for ESO..."
+GRAFANA_ALERTING_SLACK_WEBHOOK_FILE="$HOME/.secrets/grafana-alerting/slack_webhook_url"
+if [ -f "$GRAFANA_ALERTING_SLACK_WEBHOOK_FILE" ]; then
+    GRAFANA_ALERTING_SLACK_WEBHOOK_URL=$(cat "$GRAFANA_ALERTING_SLACK_WEBHOOK_FILE")
+    kubectl create namespace external-secrets --dry-run=client -o yaml | kubectl apply -f -
+    kubectl delete secret grafana-alerting-master-secret -n external-secrets --ignore-not-found
+    kubectl create secret generic grafana-alerting-master-secret \
+      -n external-secrets \
+      --from-literal=slack_webhook_url="$GRAFANA_ALERTING_SLACK_WEBHOOK_URL"
+    echo "✅ Master Grafana alerting secret created. ESO will sync grafana-alerting-secret to monitoring namespace."
+else
+    echo "⚠️  Missing Grafana alerting file — skipping grafana-alerting-master-secret."
+    echo "   Expected file:"
+    echo "   - $GRAFANA_ALERTING_SLACK_WEBHOOK_FILE"
+fi
+
+echo ""
 echo "📦 Applying root ArgoCD Applications..."
 kubectl apply -f manifests/argocd/
 
