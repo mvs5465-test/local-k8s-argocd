@@ -14,5 +14,5 @@ jobs:
       id-token: write
     uses: mvs5465-test/.github/.github/workflows/ai-pr-review.yml@main
     with:
-      reviewer: claude
+      reviewer: codex
     secrets: inherit
