@@ -1,17 +1,17 @@
-name: Codex PR Review
+name: AI PR Review
 
 on:
   pull_request:
     types: [opened, synchronize]
 
 jobs:
-  review:
+  ai_review:
     permissions:
       contents: read
       pull-requests: write
       issues: write
       statuses: write
-    uses: mvs5465-test/.github/.github/workflows/codex-pr-review.yml@main
+    uses: mvs5465-test/.github/.github/workflows/ai-pr-review.yml@main
     with:
       reviewer: claude
     secrets: inherit
