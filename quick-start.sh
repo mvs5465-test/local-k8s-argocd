@@ -126,6 +126,35 @@ else
 fi
 
 echo ""
+echo "🔐 Setting up master Velero/MinIO credentials for ESO..."
+VELERO_MINIO_ACCESS_KEY_FILE="$HOME/.secrets/velero-minio/access_key_id"
+VELERO_MINIO_SECRET_KEY_FILE="$HOME/.secrets/velero-minio/secret_access_key"
+VELERO_MINIO_ROOT_USER_FILE="$HOME/.secrets/velero-minio/root_user"
+VELERO_MINIO_ROOT_PASSWORD_FILE="$HOME/.secrets/velero-minio/root_password"
+if [ -f "$VELERO_MINIO_ACCESS_KEY_FILE" ] && [ -f "$VELERO_MINIO_SECRET_KEY_FILE" ] && [ -f "$VELERO_MINIO_ROOT_USER_FILE" ] && [ -f "$VELERO_MINIO_ROOT_PASSWORD_FILE" ]; then
+    VELERO_MINIO_ACCESS_KEY=$(cat "$VELERO_MINIO_ACCESS_KEY_FILE")
+    VELERO_MINIO_SECRET_KEY=$(cat "$VELERO_MINIO_SECRET_KEY_FILE")
+    VELERO_MINIO_ROOT_USER=$(cat "$VELERO_MINIO_ROOT_USER_FILE")
+    VELERO_MINIO_ROOT_PASSWORD=$(cat "$VELERO_MINIO_ROOT_PASSWORD_FILE")
+    kubectl create namespace external-secrets --dry-run=client -o yaml | kubectl apply -f -
+    kubectl delete secret velero-minio-master-secret -n external-secrets --ignore-not-found
+    kubectl create secret generic velero-minio-master-secret \
+      -n external-secrets \
+      --from-literal=access_key_id="$VELERO_MINIO_ACCESS_KEY" \
+      --from-literal=secret_access_key="$VELERO_MINIO_SECRET_KEY" \
+      --from-literal=root_user="$VELERO_MINIO_ROOT_USER" \
+      --from-literal=root_password="$VELERO_MINIO_ROOT_PASSWORD"
+    echo "✅ Master Velero/MinIO secret created. ESO will sync DR credentials to backups and velero namespaces."
+else
+    echo "⚠️  Missing Velero/MinIO files — skipping velero-minio-master-secret."
+    echo "   Expected files:"
+    echo "   - $VELERO_MINIO_ACCESS_KEY_FILE"
+    echo "   - $VELERO_MINIO_SECRET_KEY_FILE"
+    echo "   - $VELERO_MINIO_ROOT_USER_FILE"
+    echo "   - $VELERO_MINIO_ROOT_PASSWORD_FILE"
+fi
+
+echo ""
 echo "📦 Applying root ArgoCD Applications..."
 kubectl apply -f manifests/argocd/
 

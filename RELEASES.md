@@ -11,6 +11,7 @@
 - Cluster `ApplicationSet` now reads wave-based app folders (`apps/wave-0`, `apps/wave-1`, `apps/wave-2`) and assigns generated apps both `cluster.local/wave` and `argocd.argoproj.io/sync-wave`
 - Cluster `ApplicationSet` now preserves source app annotations so Argo CD Image Updater annotation config is retained on generated `Application` objects
 - AppProject destinations now include dedicated namespace `github-pr-slack-notifier`
+- AppProject destinations now include dedicated namespaces `backups` and `velero`
 - ArgoCD core workloads now define explicit CPU/memory requests and limits for `controller`, `server`, `repoServer`, `applicationSet`, `notifications`, and `redis`
 - Increased `repoServer` memory request/limit to 256Mi/512Mi to reduce OOM risk during manifest generation bursts
 
@@ -20,8 +21,11 @@
 - AppProject source repo allowlist entry for `grafana-community`
 - AppProject source repo allowlist entry for `argoproj/argo-helm`
 - AppProject source repo allowlist entry for `github-pr-slack-notifier`
+- AppProject source repo allowlist entry for `charts.min.io`
+- AppProject source repo allowlist entry for `vmware-tanzu/helm-charts`
 - `quick-start.sh` now bootstraps `github-pr-slack-notifier-master-secret` from `~/.secrets/github-pr-slack-notifier/*` for ESO fan-out
 - `quick-start.sh` now bootstraps `grafana-alerting-master-secret` from `~/.secrets/grafana-alerting/slack_webhook_url` for ESO fan-out
+- `quick-start.sh` now bootstraps `velero-minio-master-secret` from `~/.secrets/velero-minio/*` for ESO fan-out
 
 ### Removed
 - Outline namespace destination from the AppProject
