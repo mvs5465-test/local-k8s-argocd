@@ -29,6 +29,27 @@ spec:
       - path: apps/wave-2/*.yaml
       values:
         wave: "2"
+  # Enforce wave rollout order so dependency apps (e.g. external-secrets)
+  # are healthy before workloads that consume those resources.
+  strategy:
+    type: RollingSync
+    rollingSync:
+      steps:
+      - matchExpressions:
+        - key: cluster.local/wave
+          operator: In
+          values:
+          - "0"
+      - matchExpressions:
+        - key: cluster.local/wave
+          operator: In
+          values:
+          - "1"
+      - matchExpressions:
+        - key: cluster.local/wave
+          operator: In
+          values:
+          - "2"
   template:
     metadata:
       name: '{{ .metadata.name }}'
