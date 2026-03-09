@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+### Backlog
+- [Deferred] DR policy/bootstrap companion (AppProject allowlists + destinations and `quick-start.sh` Velero/MinIO master secret bootstrap) is parked in draft PR [#102](https://github.com/mvs5465-test/local-k8s-argocd/pull/102) for later activation.
+
 ### Changed
 - Replaced direct app-of-apps fan-out with an `ApplicationSet` rollout
 - Root bootstrap application now applies `manifests/applicationsets` from this repo
