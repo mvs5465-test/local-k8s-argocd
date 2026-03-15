@@ -14,6 +14,7 @@ spec:
   - 'https://github.com/mvs5465-test/cluster-lite-wiki'
   - 'https://github.com/mvs5465-test/cluster-home'
   - 'https://github.com/mvs5465-test/github-pr-slack-notifier'
+  - 'https://github.com/mvs5465-test/snapreview'
   - 'https://bjw-s-labs.github.io/helm-charts'
   - 'https://charts.external-secrets.io'
   - 'https://twin.github.io/helm-charts'
