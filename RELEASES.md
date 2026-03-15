@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Changed
+- Added a README note recommending docs-only pull requests for low-risk workflow checks
 - Replaced direct app-of-apps fan-out with an `ApplicationSet` rollout
 - Root bootstrap application now applies `manifests/applicationsets` from this repo
 - `quick-start.sh` now bootstraps the root ArgoCD `Application` resources so this repo self-manages
