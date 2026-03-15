@@ -34,7 +34,7 @@ It also creates idempotent master secrets in `external-secrets` from local files
    127.0.0.1 *.lan
    ```
 
-3. **Visit**: http://home.lan
+3. **Visit Cluster Home**: http://home.lan
 
 ## Architecture
 
