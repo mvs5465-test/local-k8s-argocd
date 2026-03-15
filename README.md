@@ -20,6 +20,7 @@ chmod +x quick-start.sh
 ```
 
 The script installs ArgoCD and bootstraps the root ArgoCD `Application` resources from `manifests/argocd/`.
+Run `quick-start.sh` from the repository root so its relative manifest paths resolve correctly.
 It also creates idempotent master secrets in `external-secrets` from local files under `~/.secrets/` when present.
 
 ## Access Services

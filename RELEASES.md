@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Changed
+- Clarified in README that `quick-start.sh` should be run from the repository root so manifest paths resolve correctly
 - Replaced direct app-of-apps fan-out with an `ApplicationSet` rollout
 - Root bootstrap application now applies `manifests/applicationsets` from this repo
 - `quick-start.sh` now bootstraps the root ArgoCD `Application` resources so this repo self-manages
