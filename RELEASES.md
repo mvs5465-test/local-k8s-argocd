@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Changed
+- Increased `repoServer` memory request/limit again to 384Mi/768Mi to absorb manifest-generation bursts without OOMing
 - Replaced direct app-of-apps fan-out with an `ApplicationSet` rollout
 - Root bootstrap application now applies `manifests/applicationsets` from this repo
 - `quick-start.sh` now bootstraps the root ArgoCD `Application` resources so this repo self-manages

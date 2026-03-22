@@ -44,10 +44,10 @@ repoServer:
   resources:
     requests:
       cpu: 50m
-      memory: 256Mi
+      memory: 384Mi
     limits:
       cpu: 300m
-      memory: 512Mi
+      memory: 768Mi
   metrics:
     enabled: true
 
