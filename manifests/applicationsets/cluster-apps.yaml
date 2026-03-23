@@ -72,7 +72,11 @@ spec:
       syncPolicy:
         {{- if hasKey .spec.syncPolicy "automated" }}
         automated:
+          {{- if hasKey .spec.syncPolicy.automated "enabled" }}
+          enabled: {{ .spec.syncPolicy.automated.enabled }}
+          {{- else }}
           enabled: true
+          {{- end }}
           prune: {{ .spec.syncPolicy.automated.prune | default false }}
           selfHeal: {{ .spec.syncPolicy.automated.selfHeal | default false }}
         {{- end }}
@@ -145,7 +149,11 @@ spec:
       syncPolicy:
         {{- if hasKey .spec.syncPolicy "automated" }}
         automated:
-          enabled: {{ .spec.syncPolicy.automated.enabled | default true }}
+          {{- if hasKey .spec.syncPolicy.automated "enabled" }}
+          enabled: {{ .spec.syncPolicy.automated.enabled }}
+          {{- else }}
+          enabled: true
+          {{- end }}
           prune: {{ .spec.syncPolicy.automated.prune | default false }}
           selfHeal: {{ .spec.syncPolicy.automated.selfHeal | default false }}
         {{- end }}
