@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: cluster-apps
+  name: bootstrap-apps
   namespace: argocd
 spec:
   goTemplate: true
@@ -12,25 +12,18 @@ spec:
       repoURL: https://github.com/mvs5465-test/local-k8s-apps
       revision: main
       files:
-      - path: apps/wave-0/*.yaml
+      - path: apps/bootstrap-wave-0/*.yaml
       values:
         wave: "0"
   - git:
       repoURL: https://github.com/mvs5465-test/local-k8s-apps
       revision: main
       files:
-      - path: apps/wave-1/*.yaml
+      - path: apps/bootstrap-wave-1/*.yaml
       values:
         wave: "1"
-  - git:
-      repoURL: https://github.com/mvs5465-test/local-k8s-apps
-      revision: main
-      files:
-      - path: apps/wave-2/*.yaml
-      values:
-        wave: "2"
-  # Enforce wave rollout order so dependency apps (e.g. external-secrets)
-  # are healthy before workloads that consume those resources.
+  # Keep first-boot prerequisites ordered so ingress and External Secrets
+  # exist before steady-state apps start reconciling.
   strategy:
     type: RollingSync
     rollingSync:
@@ -45,11 +38,6 @@ spec:
           operator: In
           values:
           - "1"
-      - matchExpressions:
-        - key: cluster.local/wave
-          operator: In
-          values:
-          - "2"
   template:
     metadata:
       name: '{{ .metadata.name }}'
@@ -59,7 +47,7 @@ spec:
       annotations:
         argocd.argoproj.io/sync-wave: '{{ .values.wave }}'
       labels:
-        app.kubernetes.io/part-of: cluster-apps
+        app.kubernetes.io/part-of: bootstrap-apps
         cluster.local/wave: '{{ .values.wave }}'
     spec:
       project: '{{ .spec.project }}'
@@ -85,6 +73,79 @@ spec:
         {{- if hasKey .spec.syncPolicy "automated" }}
         automated:
           enabled: true
+          prune: {{ .spec.syncPolicy.automated.prune | default false }}
+          selfHeal: {{ .spec.syncPolicy.automated.selfHeal | default false }}
+        {{- end }}
+        {{- if hasKey .spec.syncPolicy "retry" }}
+        retry: {{ .spec.syncPolicy.retry | toJson }}
+        {{- end }}
+        {{- if hasKey .spec.syncPolicy "syncOptions" }}
+        syncOptions: {{ .spec.syncPolicy.syncOptions | toJson }}
+        {{- end }}
+      {{- end }}
+      {{- if hasKey .spec "sources" }}
+      sources: {{ .spec.sources | toJson }}
+      {{- else }}
+      source: {{ .spec.source | toJson }}
+      {{- end }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: cluster-apps
+  namespace: argocd
+spec:
+  goTemplate: true
+  goTemplateOptions:
+  - missingkey=error
+  generators:
+  - git:
+      repoURL: https://github.com/mvs5465-test/local-k8s-apps
+      revision: main
+      files:
+      - path: apps/cluster-wave-1/*.yaml
+      values:
+        wave: "1"
+  - git:
+      repoURL: https://github.com/mvs5465-test/local-k8s-apps
+      revision: main
+      files:
+      - path: apps/cluster-wave-2/*.yaml
+      values:
+        wave: "2"
+  template:
+    metadata:
+      name: '{{ .metadata.name }}'
+      namespace: argocd
+      finalizers:
+      - resources-finalizer.argocd.argoproj.io
+      annotations:
+        argocd.argoproj.io/sync-wave: '{{ .values.wave }}'
+      labels:
+        app.kubernetes.io/part-of: cluster-apps
+        cluster.local/wave: '{{ .values.wave }}'
+    spec:
+      project: '{{ .spec.project }}'
+      destination:
+        server: '{{ .spec.destination.server }}'
+        namespace: '{{ .spec.destination.namespace }}'
+  templatePatch: |
+    {{- if hasKey .metadata "annotations" }}
+    metadata:
+      annotations:
+        {{- range $k, $v := .metadata.annotations }}
+        {{ $k | quote }}: {{ $v | toJson }}
+        {{- end }}
+    {{- end }}
+    spec:
+      {{- if hasKey .spec "ignoreDifferences" }}
+      ignoreDifferences: {{ .spec.ignoreDifferences | toJson }}
+      {{- end }}
+      {{- if hasKey .spec "syncPolicy" }}
+      syncPolicy:
+        {{- if hasKey .spec.syncPolicy "automated" }}
+        automated:
+          enabled: {{ .spec.syncPolicy.automated.enabled | default true }}
           prune: {{ .spec.syncPolicy.automated.prune | default false }}
           selfHeal: {{ .spec.syncPolicy.automated.selfHeal | default false }}
         {{- end }}
