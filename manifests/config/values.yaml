@@ -18,7 +18,7 @@ server:
   # Ingress configuration
   ingress:
     enabled: true
-    ingressClassName: nginx
+    ingressClassName: traefik
     hosts:
       - argocd.lan
     paths:
