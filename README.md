@@ -24,17 +24,10 @@ It also creates idempotent master secrets in `external-secrets` from local files
 
 ## Access Services
 
-1. **Start port-forward** (requires sudo):
-   ```bash
-   sudo kubectl port-forward -n ingress-nginx svc/nginx-ingress-ingress-nginx-controller 80:80 443:443
-   ```
+1. **Point service hostnames at the mini-server IP**:
+   Add explicit `.lan` records in your DNS or explicit `/etc/hosts` entries for the services you want to expose.
 
-2. **Add to `/etc/hosts`**:
-   ```
-   127.0.0.1 *.lan
-   ```
-
-3. **Visit**: http://home.lan
+2. **Visit**: http://home.lan
 
 ## Architecture
 
