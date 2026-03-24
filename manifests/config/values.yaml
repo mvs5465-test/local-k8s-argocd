@@ -19,6 +19,8 @@ server:
   ingress:
     enabled: true
     ingressClassName: traefik
+    annotations:
+      traefik.ingress.kubernetes.io/service.serversscheme: http
     hosts:
       - argocd.lan
     paths:
