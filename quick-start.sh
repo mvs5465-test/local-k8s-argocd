@@ -126,6 +126,36 @@ else
 fi
 
 echo ""
+echo "🔐 Setting up master SnapReview secret for ESO..."
+SNAPREVIEW_SECRETS_FILE="$HOME/.secrets/snapreview.json"
+if [ -f "$SNAPREVIEW_SECRETS_FILE" ]; then
+    if command -v jq &> /dev/null; then
+        SNAPREVIEW_GITHUB_CLIENT_SECRET=$(jq -er '.GITHUB_CLIENT_SECRET' "$SNAPREVIEW_SECRETS_FILE" 2>/dev/null || true)
+        SNAPREVIEW_SESSION_SECRET=$(jq -er '.SESSION_SECRET' "$SNAPREVIEW_SECRETS_FILE" 2>/dev/null || true)
+        SNAPREVIEW_REDIS_URL=$(jq -er '.REDIS_URL' "$SNAPREVIEW_SECRETS_FILE" 2>/dev/null || true)
+        if [ -n "$SNAPREVIEW_GITHUB_CLIENT_SECRET" ] && [ -n "$SNAPREVIEW_SESSION_SECRET" ] && [ -n "$SNAPREVIEW_REDIS_URL" ]; then
+            kubectl create namespace external-secrets --dry-run=client -o yaml | kubectl apply -f -
+            kubectl delete secret snapreview-master-secret -n external-secrets --ignore-not-found
+            kubectl create secret generic snapreview-master-secret \
+              -n external-secrets \
+              --from-literal=GITHUB_CLIENT_SECRET="$SNAPREVIEW_GITHUB_CLIENT_SECRET" \
+              --from-literal=SESSION_SECRET="$SNAPREVIEW_SESSION_SECRET" \
+              --from-literal=REDIS_URL="$SNAPREVIEW_REDIS_URL"
+            echo "✅ Master SnapReview secret created. ESO will sync snapreview-secret to the services namespace."
+        else
+            echo "⚠️  snapreview.json is missing one or more required keys — skipping snapreview-master-secret."
+            echo "   Required keys: GITHUB_CLIENT_SECRET, SESSION_SECRET, REDIS_URL"
+        fi
+    else
+        echo "⚠️  jq is required to parse $SNAPREVIEW_SECRETS_FILE — skipping snapreview-master-secret."
+    fi
+else
+    echo "⚠️  Missing SnapReview file — skipping snapreview-master-secret."
+    echo "   Expected file:"
+    echo "   - $SNAPREVIEW_SECRETS_FILE"
+fi
+
+echo ""
 echo "📦 Applying root ArgoCD Applications..."
 kubectl apply -f manifests/argocd/
 
