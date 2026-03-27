@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Changed
+- Slowed ArgoCD repo reconciliation polling from `10s` to `1m`
 - Split the single cluster `ApplicationSet` into a bootstrap `RollingSync` set for ingress plus the External Secrets operator, and a steady-state cluster set so day-2 config like `external-secrets-config` keeps normal child app auto-sync
 - Increased `repoServer` memory request/limit again to 384Mi/768Mi to absorb manifest-generation bursts without OOMing
 - Replaced direct app-of-apps fan-out with an `ApplicationSet` rollout
