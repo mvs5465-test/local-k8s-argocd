@@ -57,6 +57,8 @@ spec:
     kind: ValidatingWebhookConfiguration
   - group: 'networking.k8s.io'
     kind: IngressClass
+  - group: 'discovery.k8s.io'
+    kind: EndpointSlice
   - group: 'external-secrets.io'
     kind: ClusterSecretStore
   - group: 'external-secrets.io'
