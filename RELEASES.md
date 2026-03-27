@@ -17,6 +17,7 @@
 - Increased `repoServer` memory request/limit to 256Mi/512Mi to reduce OOM risk during manifest generation bursts
 
 ### Added
+- AppProject source repo allowlist entry for `helm.openwebui.com`
 - AppProject source repo allowlist entry for `cluster-lite-wiki`
 - AppProject source repo allowlist entry for `cluster-home`
 - AppProject source repo allowlist entry for `grafana-community`
