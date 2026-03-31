@@ -27,6 +27,7 @@
 - AppProject source repo allowlist entry for `grafana-community`
 - AppProject source repo allowlist entry for `argoproj/argo-helm`
 - AppProject source repo allowlist entry for `github-pr-slack-notifier`
+- AppProject source repo allowlist entry for `notes-app`
 - `quick-start.sh` now bootstraps `github-pr-slack-notifier-master-secret` from `~/.secrets/github-pr-slack-notifier/*` for ESO fan-out
 - `quick-start.sh` now bootstraps `grafana-alerting-master-secret` from `~/.secrets/grafana-alerting/slack_webhook_url` for ESO fan-out
 
