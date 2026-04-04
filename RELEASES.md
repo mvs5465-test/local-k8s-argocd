@@ -30,6 +30,7 @@
 - AppProject source repo allowlist entry for `notes-app`
 - `quick-start.sh` now bootstraps `github-pr-slack-notifier-master-secret` from `~/.secrets/github-pr-slack-notifier/*` for ESO fan-out
 - `quick-start.sh` now bootstraps `grafana-alerting-master-secret` from `~/.secrets/grafana-alerting/slack_webhook_url` for ESO fan-out
+- `quick-start.sh` now bootstraps `openclaw-master-secret` for ESO fan-out, using `~/.secrets/openclaw/gateway_token` when present and generating a token otherwise
 
 ### Removed
 - Outline namespace destination from the AppProject

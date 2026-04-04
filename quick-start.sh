@@ -126,6 +126,24 @@ else
 fi
 
 echo ""
+echo "🔐 Setting up master OpenClaw gateway secret for ESO..."
+OPENCLAW_GATEWAY_TOKEN_FILE="$HOME/.secrets/openclaw/gateway_token"
+if [ -f "$OPENCLAW_GATEWAY_TOKEN_FILE" ]; then
+    OPENCLAW_GATEWAY_TOKEN=$(cat "$OPENCLAW_GATEWAY_TOKEN_FILE")
+    OPENCLAW_GATEWAY_TOKEN_SOURCE="$OPENCLAW_GATEWAY_TOKEN_FILE"
+else
+    OPENCLAW_GATEWAY_TOKEN=$(openssl rand -hex 24)
+    OPENCLAW_GATEWAY_TOKEN_SOURCE="generated for this bootstrap run"
+fi
+kubectl create namespace external-secrets --dry-run=client -o yaml | kubectl apply -f -
+kubectl delete secret openclaw-master-secret -n external-secrets --ignore-not-found
+kubectl create secret generic openclaw-master-secret \
+  -n external-secrets \
+  --from-literal=gateway_token="$OPENCLAW_GATEWAY_TOKEN"
+echo "✅ Master OpenClaw secret created from $OPENCLAW_GATEWAY_TOKEN_SOURCE."
+echo "   ESO will sync openclaw-secrets to the ai namespace."
+
+echo ""
 echo "📦 Applying root ArgoCD Applications..."
 kubectl apply -f manifests/argocd/
 
